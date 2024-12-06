@@ -6,7 +6,7 @@ unsigned int height=100000, width=100000, layots=8;
 Areamap *map;
 sprite *Spritesonmap;
 
-int main(int arc, char *argv[]){
+int main(){
     char name[15];
 
     map = Area(height, width, layots);
