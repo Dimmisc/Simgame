@@ -12,44 +12,53 @@ typedef struct{
 } sprite;
 
 typedef struct{
+    int posx;
+    int posy;
+    int layot;
+    char name[15];
+} effect;
+
+typedef struct{
   int mapwidth;
   int mapheight;
   int maplayots;
-  sprite *sprites = malloc(sizeof(sprite));
-  effect *effects = malloc(sizeof(effect));
-  char error[15];
-  int sizeeffect = 1;
-  int sizesprites = 1;
+  sprite* sprites;
+  effect* effects;
+  char error[30];
+  int sizeffects;
+  int sizesprites;
 } Areamap;
 
 Areamap folder = {0,0,0};
 int i = 0;
-int nsprite = 0; // число отвечающее за длину массива sprites
+long long int nsprite = 0; // число отвечающее за длину массива sprites
 
  Areamap *Area(unsigned int inwidth, unsigned int inheight, unsigned int inlayots){
     folder.mapheight = inheight;
     folder.mapwidth = inwidth;
     folder.maplayots = inlayots;
+    folder.sizeffects = 2;
+    folder.sizesprites = 2;
+    folder.sprites = (sprite*) malloc(sizeof(sprite) * 2);
+    folder.effects = (effect*) malloc(sizeof(effect) * 2);
     return &folder;
 }
 
 Areamap *CreateSprite(char name[15], int x, int y){
-    int n = sizeof(folder.sprites) / sizeof(folder.sprites[0]) - 1;
-    folder.sprites[n].posx = x;
-    folder.sprites[n].posy = y;
-    folder.sprites[n].layot = 0;
-    strncpy(folder.sprites[n].name, name, 15);
+    folder.sprites[folder.sizesprites].posx = x;
+    folder.sprites[folder.sizesprites].posy = y;
+    folder.sprites[folder.sizesprites].layot = 0;
+    strncpy(folder.sprites[folder.sizesprites].name, name, 15);
     folder.sizesprites++;
-    folder.sprites = realloc(folder.sprites, sizeof(folder.sprites) * (sizesprites));
+    folder.sprites = realloc(folder.sprites, sizeof(folder.sprites) * (folder.sizesprites));
     return &folder;
 }
 
-Areamap *Moveright(char namesprite[15], int speed){
-    nsprite = sizeof(folder.sprites) / sizeof(folder.sprites[0]) - 1;
-    while (folder.sprites[i].name != namesprite && i < nsprite){
+Areamap *moveright(char namesprite[15], int speed){
+    while (strcmp(folder.sprites[i].name, namesprite) == 0 && i < folder.sizesprites - 1){
         i++;
     }
-    if (strcmp(namesprite, folder.sprites.name) == 0){
+    if (strcmp(namesprite, folder.sprites[i].name) == 0){
         strcpy(folder.error, "No sprite with this name");
         return &folder;
     }
@@ -58,12 +67,11 @@ Areamap *Moveright(char namesprite[15], int speed){
     return &folder;
 }
 
-Areamap *Moveleft(char namesprite[15], int speed){
-    nsprite = sizeof(folder.sprites) / sizeof(folder.sprites[0]) - 1;
-    while (folder.sprites[i].name != namesprite && i < nsprite){
+Areamap *moveleft(char namesprite[15], int speed){
+    while (strcmp(folder.sprites[i].name, namesprite) == 0 && i < folder.sizesprites - 1){
         i++;
     }
-    if (strcmp(namesprite, folder.sprites.name) == 0){
+    if (strcmp(namesprite, folder.sprites[i].name) == 0){
         strcpy(folder.error, "No sprite with this name");
         return &folder;
     }
@@ -72,12 +80,11 @@ Areamap *Moveleft(char namesprite[15], int speed){
     return &folder;
 }
 
-Areamap *Moveup(char namesprite[15], int speed){
-    nsprite = sizeof(folder.sprites) / sizeof(folder.sprites[0]) - 1;
-    while (folder.sprites[i].name != namesprite && i < nsprite){
+Areamap *moveup(char namesprite[15], int speed){
+    while (strcmp(folder.sprites[i].name, namesprite) == 0 && i < folder.sizesprites - 1){
         i++;
     }
-    if (strcmp(namesprite, folder.sprites.name) == 0){
+    if (strcmp(namesprite, folder.sprites[i].name) == 0){
         strcpy(folder.error, "No sprite with this name");
         return &folder;
     }
@@ -86,12 +93,11 @@ Areamap *Moveup(char namesprite[15], int speed){
     return &folder;
 }
 
-Areamap *Movedown(char namesprite[15], int speed){
-    nsprite = sizeof(folder.sprites) / sizeof(folder.sprites[0]) - 1;
-    while (folder.sprites[i].name != namesprite && i < nsprite){
+Areamap *movedown(char namesprite[15], int speed){
+    while (strcmp(folder.sprites[i].name, namesprite) == 0 && i < folder.sizesprites - 1){
         i++;
     }
-    if (strcmp(namesprite, folder.sprites.name)){
+    if (strcmp(namesprite, folder.sprites[i].name) == 0){
         strcpy(folder.error,"No sprite with this name");
         return &folder;
     }
@@ -104,16 +110,23 @@ sprite *ReturnSprites(){
     return folder.sprites;
 }
 
-void closeArea(){
+void CloseArea(){
     i = 0;
     nsprite = 0;
-    free(folder->sprites);
+    free(folder.sprites);
+    free(folder.effects);
 }
 
 char Areaerror(){
     return *folder.error;
 }
 
+extern Areamap *moveup();
+extern Areamap *movedown();
+extern Areamap *moveleft();
+extern Areamap *overight();
+extern char Areaerror();
+extern void CloseArea();
 extern sprite *ReturnSprites();
 extern Areamap *CreateSprite();
 extern Areamap *Area();
