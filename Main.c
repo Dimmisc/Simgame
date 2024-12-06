@@ -8,12 +8,12 @@ sprite *Spritesonmap;
 
 int main(int arc, char *argv[]){
     char name[15];
-    
+
     map = Area(height, width, layots);
-    map = CreateSprite(name);
-    Spritesonmap = ReturnSprites();
-    
+    map = CreateSprite(name, 1, 0);
+    sprite *smap = ReturnSprites();
+
     printf("Hello, World!");
-    
+    CloseArea();
     return 0;
 }
