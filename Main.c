@@ -6,7 +6,7 @@ unsigned int height=100000, width=100000, layots=8;
 Areamap *map;
 sprite *Smap;
 
-int main(int arc, char *argv[]){
+int main(){
     char name[15];
     strncpy(name, "Ork_deligation", 15);
     int n=1;
