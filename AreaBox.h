@@ -110,6 +110,7 @@ sprite *ReturnNSprite(int n){
         return &folder.sprites[n];
     }
     else {
+        strcpy(folder.error, "Error in function ReturnNSprite");
         return 0;
     }
 }
