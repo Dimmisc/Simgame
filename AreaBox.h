@@ -31,26 +31,25 @@ typedef struct{
 
 Areamap folder = {0,0,0};
 int i = 0;
-long long int nsprite = 0; // число отвечающее за длину массива sprites
 
  Areamap *Area(unsigned int inwidth, unsigned int inheight, unsigned int inlayots){
     folder.mapheight = inheight;
     folder.mapwidth = inwidth;
     folder.maplayots = inlayots;
-    folder.sizeffects = 2;
-    folder.sizesprites = 2;
-    folder.sprites = (sprite*) malloc(sizeof(sprite) * 2);
-    folder.effects = (effect*) malloc(sizeof(effect) * 2);
+    folder.sizeffects = 0;
+    folder.sizesprites = 0;
+    folder.sprites = (sprite*) malloc(sizeof(sprite) * 0);
+    folder.effects = (effect*) malloc(sizeof(effect) * 0);
     return &folder;
 }
 
 Areamap *CreateSprite(char name[15], int x, int y){
+    folder.sizesprites++;
+    folder.sprites = realloc(folder.sprites, (sizeof(sprite) * folder.sizesprites));
     folder.sprites[folder.sizesprites].posx = x;
     folder.sprites[folder.sizesprites].posy = y;
     folder.sprites[folder.sizesprites].layot = 0;
     strncpy(folder.sprites[folder.sizesprites].name, name, 15);
-    folder.sizesprites++;
-    folder.sprites = realloc(folder.sprites, sizeof(folder.sprites) * (folder.sizesprites));
     return &folder;
 }
 
@@ -106,13 +105,17 @@ Areamap *movedown(char namesprite[15], int speed){
     return &folder;
 }
 
-sprite *ReturnSprites(){
-    return folder.sprites;
+sprite *ReturnNSprite(int n){
+    if (n <= folder.sizesprites){
+        return &folder.sprites[n];
+    }
+    else {
+        return 0;
+    }
 }
 
 void CloseArea(){
     i = 0;
-    nsprite = 0;
     free(folder.sprites);
     free(folder.effects);
 }
@@ -127,7 +130,7 @@ extern Areamap *moveleft();
 extern Areamap *overight();
 extern char Areaerror();
 extern void CloseArea();
-extern sprite *ReturnSprites();
+extern sprite *ReturnNSprite();
 extern Areamap *CreateSprite();
 extern Areamap *Area();
 #endif
