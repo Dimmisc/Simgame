@@ -6,7 +6,7 @@ int main(int argc, char* argv[]) {
     SDL_Window * Window;
     SDL_Surface *image;
     SDL_Renderer *Ren;
-    image = IMG_Load("C:/MYprog/Simgame/Textures/Sprite.png");
+    image = IMG_Load("Simgame/Textures/Sprite.png");
     Window = SDL_CreateWindow("Hello World!", 100, 100, 400, 400, SDL_WINDOW_SHOWN);
     Ren = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     SDL_Texture *tex = SDL_CreateTextureFromSurface(Ren, image);
