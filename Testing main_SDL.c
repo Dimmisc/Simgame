@@ -1,34 +1,24 @@
-#include <stdio.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <stdio.h>
 
-SDL_Event event;
-unsigned int quit = 1;
+int main(int argc, char* argv[]) {
+    SDL_Window * Window;
+    SDL_Surface *image;
+    SDL_Renderer *Ren;
+    image = IMG_Load("C:/MYprog/Simgame/Textures/Sprite.png");
+    Window = SDL_CreateWindow("Hello World!", 100, 100, 400, 400, SDL_WINDOW_SHOWN);
+    Ren = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    SDL_Texture *tex = SDL_CreateTextureFromSurface(Ren, image);
+    SDL_RenderClear(Ren);
+    SDL_RenderCopy(Ren, tex, NULL, NULL);
+    SDL_RenderPresent(Ren);
+    SDL_Delay(10000);
 
-typedef struct SDLWindow{
-    SDL_Window* window;
-    SDL_Surface* ScreenSurface;
-} SDLWindow;
-
-int main(int argc, char *argv[]){
-
-    SDLWindow Window1 = {NULL, NULL};
-
-    while (quit == 1){
-
-        while (SDL_PollEvent(&event) != 0){
-
-            if (event.type == SDL_QUIT){
-                quit = 0;
-            }
-            if (event.type == SDL_SCANCODE_W){
-                printf("You are pressing W");
-            }
-        }
-    }
-
-    SDL_DestroyWindow(Window1.window);
+    SDL_DestroyTexture(tex);
+    SDL_FreeSurface(image);
+    SDL_DestroyWindow(Window);
+    SDL_DestroyRenderer(Ren);
     SDL_Quit();
-    printf("helloWorld");
     return 0;
 }
