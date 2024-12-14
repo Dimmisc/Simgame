@@ -4,26 +4,32 @@
 #include <stdio.h>
 #include <string.h>
 
-typedef struct{
+typedef struct Colision {
+    int height;
+    int width;
+} Colision;
+
+typedef struct Sprite {
+    int posx;
+    int posy;
+    int layot;
+    Colision *colisions;
+    char name[15];
+} Sprite;
+
+typedef struct Effect {
     int posx;
     int posy;
     int layot;
     char name[15];
-} sprite;
+} Effect;
 
-typedef struct{
-    int posx;
-    int posy;
-    int layot;
-    char name[15];
-} effect;
-
-typedef struct{
+typedef struct Areamap{
   int mapwidth;
   int mapheight;
   int maplayots;
-  sprite* sprites;
-  effect* effects;
+  Sprite* sprites;
+  Effect* effects;
   char error[30];
   int sizeffects;
   int sizesprites;
