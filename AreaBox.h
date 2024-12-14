@@ -38,8 +38,8 @@ int i = 0;
     folder.maplayots = inlayots;
     folder.sizeffects = 0;
     folder.sizesprites = 0;
-    folder.sprites = (sprite*) malloc(sizeof(sprite) * 0);
-    folder.effects = (effect*) malloc(sizeof(effect) * 0);
+    folder.sprites = (sprite*) malloc(sizeof(sprite) * 1);
+    folder.effects = (effect*) malloc(sizeof(effect) * 1);
     return &folder;
 }
 
