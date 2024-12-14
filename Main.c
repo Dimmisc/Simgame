@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "AreaBox.h"
 
 unsigned int height=100000, width=100000, layots=8;
