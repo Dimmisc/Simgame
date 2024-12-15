@@ -6,7 +6,10 @@
 
 unsigned int KEYS[322] = {0U};
 SDL_Event Event;
-int Exit = 1, height = 100, width = 100;
+int Exit = 1, height = 1000, width = 1000;
+SDL_Window *MainWindow = NULL;
+SDL_Surface *MainSurface = NULL;
+SDL_Renderer *MainRender = NULL;
 
 typedef struct ColisionS{
     int Height[1];
@@ -15,42 +18,58 @@ typedef struct ColisionS{
 } ColisionS;
 
 typedef struct sprite{
+    SDL_Texture *Texture;
     int Posx;
     int Posy;
     ColisionS Colision;
 } sprite;
 
+sprite Player = {0,0};
+
+int LoadTexture(){
+    MainSurface = IMG_Load("C:/MYprog/Simgame/Textures/Sprite.png");
+    SDL_GetError();
+    Player.Texture = SDL_CreateTextureFromSurface(MainRender, MainSurface);
+    SDL_GetError();
+    return 1;
+}
 int EventShow(){
     short int Succes = 1;
-    return Succes
+    SDL_RenderClear( MainRender );
+    SDL_GetError();
+    SDL_Rect Rect={Player.Posx, Player.Posy, 256, 256};
+    SDL_RenderCopy(MainRender, Player.Texture, NULL, &Rect);
+    SDL_GetError();
+    SDL_RenderPresent(MainRender);
+    SDL_GetError();
+    return Succes;
 }
 
 int main(int argc, char* argv[]) {
-    sprite Player = {0,0};
+
     Player.Colision.CountC = 1;
     Player.Colision.Width[0] = 10;
     Player.Colision.Height[0] = 10;
-    SDL_Window *MainWindow = NULL;
-    SDL_Surface *MainSurface = NULL;
     MainWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN );
-
+    MainRender = SDL_CreateRenderer(MainWindow, -1, SDL_RENDERER_ACCELERATED);
+    LoadTexture();
     while (Exit != 0){
 
         while (SDL_PollEvent(&Event) != 0){
             if (Event.key.keysym.sym == SDLK_w){
-                Player.Posx += 1;
+                Player.Posy -= 1;
                 KEYS[Event.key.keysym.sym] = 1;
             }
-            if (Event.key.keysym.sym == SDLK_q){
-                Player.Posx -= 1;
-                KEYS[Event.key.keysym.sym] = 1;
-            }
-            if (Event.key.keysym.sym == SDLK_d){
+            if (Event.key.keysym.sym == SDLK_s){
                 Player.Posy += 1;
                 KEYS[Event.key.keysym.sym] = 1;
             }
+            if (Event.key.keysym.sym == SDLK_d){
+                Player.Posx += 1;
+                KEYS[Event.key.keysym.sym] = 1;
+            }
             if (Event.key.keysym.sym == SDLK_a){
-                Player.Posy -= 1;
+                Player.Posx -= 1;
                 KEYS[Event.key.keysym.sym] = 1;
             }
             if (Event.key.keysym.sym == SDLK_q){
@@ -58,15 +77,20 @@ int main(int argc, char* argv[]) {
                 printf("LOL\n");
                 break;
             }
-            printf("%d\n", Event.key.keysym.sym);
+            EventShow();
+            printf("%s\n", SDL_GetError());
         }
 
-    }
 
+    }
+    SDL_GetError();
+    SDL_DestroyTexture(Player.Texture);
+    SDL_DestroyRenderer( MainRender );
     SDL_FreeSurface( MainSurface );
     SDL_DestroyWindow( MainWindow );
+    IMG_Quit();
+    SDL_Quit();
     printf("End");
-
     return 0;
 }
 
