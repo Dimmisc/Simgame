@@ -3,62 +3,99 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <SDL2/SDL.h>
 
-typedef struct Colision {
-    int height;
-    int width;
-} Colision;
+typedef struct ParametresES{
+    SDL_Rect parametres;
+    double rotation;
+    SDL_Point center;
+    int layot;
+}ParametresES;
+SDL_point slam;
 
-typedef struct Sprite {
+typedef struct sprite{
+    SDL_Texture *spriteTexture;
+    ParametresES arguments;
+    char name[15];
+    SDL_RendererFlip reflaction;
+} sprite;
+
+typedef struct effect{
+    const double rotation;
     int posx;
     int posy;
     int layot;
-    Colision *colisions;
     char name[15];
-} Sprite;
-
-typedef struct Effect {
-    int posx;
-    int posy;
-    int layot;
-    char name[15];
-} Effect;
+} effect;
 
 typedef struct Areamap{
-  int mapwidth;
-  int mapheight;
-  int maplayots;
-  Sprite* sprites;
-  Effect* effects;
-  char error[30];
-  int sizeffects;
-  int sizesprites;
+    sprite* sprites;
+    char error[30];
+    int mapwidth;
+    int mapheight;
+    int maplayots
+    int sizesprites;
+    //effect* effects;
+    //int sizeffects;
 } Areamap;
 
-Areamap folder = {0,0,0};
+
+Areamap folder = NULL;
 int i = 0;
 
  Areamap *Area(unsigned int inwidth, unsigned int inheight, unsigned int inlayots){
     folder.mapheight = inheight;
     folder.mapwidth = inwidth;
     folder.maplayots = inlayots;
-    folder.sizeffects = 0;
+    //folder.sizeffects = 0;
     folder.sizesprites = 0;
     folder.sprites = (sprite*) malloc(sizeof(sprite) * 1);
-    folder.effects = (effect*) malloc(sizeof(effect) * 1);
+    //folder.effects = (effect*) malloc(sizeof(effect) * 1);
     return &folder;
 }
 
-Areamap *CreateSprite(char name[15], int x, int y){
+Areamap *CreateSprite(char name[15], int x, int y, int angle){
     folder.sizesprites++;
     folder.sprites = realloc(folder.sprites, (sizeof(sprite) * folder.sizesprites));
-    folder.sprites[folder.sizesprites].posx = x;
-    folder.sprites[folder.sizesprites].posy = y;
+    folder.sprites[folder.sizesprites].arguments.parametres.x = x;
+    folder.sprites[folder.sizesprites].arguments.parametres.y = y;
     folder.sprites[folder.sizesprites].layot = 0;
+    folder.sprites[folder.sizesprites].rotation = angle;
+    folder.sprites[folder.sizesprites].reflaction = NULL;
     strncpy(folder.sprites[folder.sizesprites].name, name, 15);
     return &folder;
 }
 
+sprite *ReturnNSprite(int n){
+    if (n <= folder.sizesprites){
+        return &folder.sprites[n];
+    }
+    else {
+        strcpy(folder.error, "Error in function ReturnNSprite");
+        return 0;
+    }
+}
+
+void CloseArea(){
+    i = 0;
+    free(folder.sprites);
+}
+
+char AreaGetError(){
+    return *folder.error;
+}
+
+/*extern Areamap *moveup();
+extern Areamap *movedown();
+extern Areamap *moveleft();
+extern Areamap *moveright();*/
+extern char Areaerror();
+extern void CloseArea();
+extern sprite *ReturnNSprite();
+extern Areamap *CreateSprite();
+extern Areamap *Area();
+#endif
+/*
 Areamap *moveright(char namesprite[15], int speed){
     while (strcmp(folder.sprites[i].name, namesprite) == 0 && i < folder.sizesprites - 1){
         i++;
@@ -103,41 +140,11 @@ Areamap *movedown(char namesprite[15], int speed){
         i++;
     }
     if (strcmp(namesprite, folder.sprites[i].name) == 0){
-        strcpy(folder.error,"No sprite with this name");
+        strcpy(folder.error, "No sprite with this name");
         return &folder;
     }
     folder.sprites[i].posx -= 1;
     i = 0;
     return &folder;
 }
-
-sprite *ReturnNSprite(int n){
-    if (n <= folder.sizesprites){
-        return &folder.sprites[n];
-    }
-    else {
-        strcpy(folder.error, "Error in function ReturnNSprite");
-        return 0;
-    }
-}
-
-void CloseArea(){
-    i = 0;
-    free(folder.sprites);
-    free(folder.effects);
-}
-
-char Areaerror(){
-    return *folder.error;
-}
-
-extern Areamap *moveup();
-extern Areamap *movedown();
-extern Areamap *moveleft();
-extern Areamap *overight();
-extern char Areaerror();
-extern void CloseArea();
-extern sprite *ReturnNSprite();
-extern Areamap *CreateSprite();
-extern Areamap *Area();
-#endif
+*/
