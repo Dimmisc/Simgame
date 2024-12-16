@@ -8,7 +8,7 @@
 #include "AreaBox.h"
 
 
-typedef struct SGL_ConsoleWindow{
+typedef struct SEL_ConsoleWindow{
     SDL_Window *window;
     SDL_Surface *surface;
     SDL_Renderer *render;
