@@ -8,7 +8,7 @@
 typedef struct ParametresES{
     SDL_Rect parametres;
     double rotation;
-    SDL_Point center;
+    SDL_Point centerrotation;
     int layot;
 }ParametresES;
 SDL_point slam;
@@ -66,6 +66,16 @@ Areamap *CreateSprite(char name[15], int x, int y, int angle){
     return &folder;
 }
 
+Areamap *ChangePositionSprite(char namesprite[15], SDL_Rect *Argchange){
+    i = 0;
+    while (strcmp(folder.sprites[i].name, namesprite) == 0 && i < folder.sizesprites - 1){
+        i++;
+    }
+    if (i)
+    folder.sprites[i].arguments.parametres.x = Argchange.posx;
+    folder.sprites[i].arguments.parametres.y = Argchange.posy;
+}
+
 sprite *ReturnNSprite(int n){
     if (n <= folder.sizesprites){
         return &folder.sprites[n];
@@ -96,7 +106,7 @@ extern Areamap *CreateSprite();
 extern Areamap *Area();
 #endif
 /*
-Areamap *moveright(char namesprite[15], int speed){
+Areamap *moveright(char namesp byrite[15], int speed){
     while (strcmp(folder.sprites[i].name, namesprite) == 0 && i < folder.sizesprites - 1){
         i++;
     }
