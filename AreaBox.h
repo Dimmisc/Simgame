@@ -67,13 +67,20 @@ Areamap *CreateSprite(char name[15], int x, int y, int angle){
 }
 
 Areamap *ChangePositionSprite(char namesprite[15], SDL_Rect *Argchange){
+    int succes = 0;
     i = 0;
     while (strcmp(folder.sprites[i].name, namesprite) == 0 && i < folder.sizesprites - 1){
         i++;
     }
-    if (i)
-    folder.sprites[i].arguments.parametres.x = Argchange.posx;
-    folder.sprites[i].arguments.parametres.y = Argchange.posy;
+    if (i == folder.sizesprites) {
+        strcpy(folder.error, "No sprite with this name");
+    }
+    else {
+        folder.sprites[i].arguments.parametres.x = Argchange.posx;
+        folder.sprites[i].arguments.parametres.y = Argchange.posy;
+        succes = 1;
+    }
+    return succes;
 }
 
 sprite *ReturnNSprite(int n){
