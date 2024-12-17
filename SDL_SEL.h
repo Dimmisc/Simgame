@@ -7,7 +7,7 @@
 #include <SDL2/SDL_image.h>
 #include "AreaBox.h"
 
-
+int i = 0;
 typedef struct SEL_ConsoleWindow{
     SDL_Window *window;
     SDL_Surface *surface;
@@ -44,6 +44,19 @@ int SEL_init(SEL_ConsoleWindow *ARG, WindowSettings *settings){
         }
         else {
             succes = 1;
+        }
+    }
+    return succes;
+}
+
+int SEL_MoveOtherSprites(AreaBox *AREA, speed){
+    int succes = 1, truth = 0;
+    for (i=0;i<AREA->sizeflexingsprites;i++){
+        truth = InitEventSprite(AREA->flexingsprites[i]);
+        if (truth == 0){
+            succes = 0;
+            strncpy(AREA->error, Get_errorMSP());
+            break;
         }
     }
     return succes;
