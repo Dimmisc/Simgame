@@ -17,9 +17,16 @@ typedef struct sprite{
     SDL_Texture *spriteTexture;
     ParametresES arguments;
     char name[15];
-    int typemove;
     SDL_RendererFlip reflaction;
 } sprite;
+
+typedef struct flexsprite{
+    SDL_Texture *spriteTexture;
+    ParametresES arguments;
+    char name[15];
+    int typemove; 
+    SDL_RendererFlip reflaction;
+} flexsprite;
 
 typedef struct effect{
     const double rotation;
@@ -30,12 +37,14 @@ typedef struct effect{
 } effect;
 
 typedef struct Areamap{
-    sprite* sprites;
+    sprite* solidsprites;
+    FlexSprites* flexingsprites;
     char error[30];
     int mapwidth;
     int mapheight;
     int maplayots
     int sizesprites;
+    int sizeflexingsprites;
     //effect* effects;
     //int sizeffects;
 } Areamap;
