@@ -17,6 +17,7 @@ typedef struct sprite{
     SDL_Texture *spriteTexture;
     ParametresES arguments;
     char name[15];
+    int typemove;
     SDL_RendererFlip reflaction;
 } sprite;
 
