@@ -4,45 +4,44 @@
 #include <stdio.h>
 #include <string.h>
 #include <SDL2/SDL.h>
-
-typedef struct ParametresES{
+/**/
+typedef struct parametresSprite{
     SDL_Rect parametres;
     double rotation;
-    SDL_Point centerrotation;
+    SDL_Point center_rotation;
     int layot;
-}ParametresES;
-SDL_point slam;
+} parametresSprite;
 
 typedef struct sprite{
     SDL_Texture *spriteTexture;
-    ParametresES arguments;
-    char name[15];
+    parametresSprite arguments;
     SDL_RendererFlip reflaction;
+    char name[15];
 } sprite;
 
-typedef struct flexsprite{
+typedef struct FlexSprite{
     SDL_Texture *spriteTexture;
-    ParametresES arguments;
+    parametresSprite arguments;
     char name[15];
-    int typemove; 
     SDL_RendererFlip reflaction;
-} flexsprite;
+    int typemove;
+} FlexSprite;
 
 typedef struct effect{
+    char name[15];
     const double rotation;
     int posx;
     int posy;
     int layot;
-    char name[15];
 } effect;
 
 typedef struct Areamap{
-    sprite* solidsprites;
-    FlexSprites* flexingsprites;
+    sprite* sprites;
+    FlexSprite* flexingsprites;
     char error[30];
     int mapwidth;
     int mapheight;
-    int maplayots
+    int maplayots;
     int sizesprites;
     int sizeflexingsprites;
     //effect* effects;
@@ -50,7 +49,7 @@ typedef struct Areamap{
 } Areamap;
 
 
-Areamap folder = NULL;
+Areamap folder;
 int i = 0;
 
  Areamap *Area(unsigned int inwidth, unsigned int inheight, unsigned int inlayots){
@@ -69,9 +68,9 @@ Areamap *CreateSprite(char name[15], int x, int y, int angle){
     folder.sprites = realloc(folder.sprites, (sizeof(sprite) * folder.sizesprites));
     folder.sprites[folder.sizesprites].arguments.parametres.x = x;
     folder.sprites[folder.sizesprites].arguments.parametres.y = y;
-    folder.sprites[folder.sizesprites].layot = 0;
-    folder.sprites[folder.sizesprites].rotation = angle;
-    folder.sprites[folder.sizesprites].reflaction = NULL;
+    folder.sprites[folder.sizesprites].arguments.layot = 1;
+    folder.sprites[folder.sizesprites].arguments.rotation = angle;
+    //folder.sprites[folder.sizesprites].reflaction = {0, 0, 0, 0};
     strncpy(folder.sprites[folder.sizesprites].name, name, 15);
     return &folder;
 }
@@ -79,18 +78,16 @@ Areamap *CreateSprite(char name[15], int x, int y, int angle){
 Areamap *ChangePositionSprite(char namesprite[15], SDL_Rect *Argchange){
     int succes = 0;
     i = 0;
-    while (strcmp(folder.sprites[i].name, namesprite) == 0 && i < folder.sizesprites - 1){
-        i++;
-    }
+    while (strcmp(folder.sprites[i].name, namesprite) == 0 && i < folder.sizesprites - 1){i++;}
     if (i == folder.sizesprites) {
         strcpy(folder.error, "No sprite with this name");
     }
     else {
-        folder.sprites[i].arguments.parametres.x = Argchange.posx;
-        folder.sprites[i].arguments.parametres.y = Argchange.posy;
+        folder.sprites[i].arguments.parametres.x = Argchange->x;
+        folder.sprites[i].arguments.parametres.y = Argchange->y;
         succes = 1;
     }
-    return succes;
+    return &folder;
 }
 
 sprite *ReturnNSprite(int n){
