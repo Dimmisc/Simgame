@@ -3,30 +3,10 @@
 #include <string.h>
 #include <SDL2/SDL.h>
 
-
+#include  "sprites/sprite.h"
 #include "Area.h"
-/**/
-typedef struct parametresSprite{
-    SDL_Rect parametres;
-    double rotation;
-    SDL_Point center_rotation;
-    int layot;
-} parametresSprite;
 
-typedef struct sprite{
-    SDL_Texture *spriteTexture;
-    parametresSprite arguments;
-    SDL_RendererFlip reflaction;
-    char name[15];
-} sprite;
 
-typedef struct FlexSprite{
-    SDL_Texture *spriteTexture;
-    parametresSprite arguments;
-    char name[15];
-    SDL_RendererFlip reflaction;
-    int typemove;
-} FlexSprite;
 
 typedef struct effect{
     char name[15];
@@ -40,7 +20,7 @@ typedef struct Areamap{
     sprite* sprites;
     FlexSprite* flexingsprites;
     char error[30];
-    int mapwidth;
+    int mapwidth; 
     int mapheight;
     int maplayots;
     int sizesprites;
@@ -52,8 +32,8 @@ typedef struct Areamap{
 
 Areamap folder;
 int i = 0;
-
-Areamap *Area(unsigned int inwidth, unsigned int inheight, unsigned int inlayots){
+    
+Areamap *Area(unsigned int inwidth, unsigned int inheight, unsigned int inlayots) {
     folder.mapheight = inheight;
     folder.mapwidth = inwidth;
     folder.maplayots = inlayots;

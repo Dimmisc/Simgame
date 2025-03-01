@@ -3,7 +3,6 @@
 #include <SDL_image.h>
 #include <string.h>
 
-#include "source/SEL.h"
 
 
 int WinMain(int argc, char* argv[]){
