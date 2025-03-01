@@ -1,3 +1,0 @@
-C:/MYprog/Simgame_by_VSCode/build/CMakeFiles/Simgame_by_VScode.dir
-C:/MYprog/Simgame_by_VSCode/build/CMakeFiles/edit_cache.dir
-C:/MYprog/Simgame_by_VSCode/build/CMakeFiles/rebuild_cache.dir

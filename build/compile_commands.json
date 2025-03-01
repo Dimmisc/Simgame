@@ -1,8 +1,0 @@
-[
-{
-  "directory": "C:/MYprog/Simgame_by_VSCode/build",
-  "command": "C:\\msys64\\mingw64\\bin\\cc.exe -isystem C:/msys64/mingw64/include/SDL2 -g -o CMakeFiles\\Simgame_by_VScode.dir\\Main.c.obj -c C:\\MYprog\\Simgame_by_VSCode\\Main.c",
-  "file": "C:\\MYprog\\Simgame_by_VSCode\\Main.c",
-  "output": "CMakeFiles\\Simgame_by_VScode.dir\\Main.c.obj"
-}
-]
