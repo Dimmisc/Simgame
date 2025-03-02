@@ -3,40 +3,17 @@
 #include <string.h>
 #include <SDL2/SDL.h>
 
-#include  "sprites/sprite.h"
+#include "sprites/sprite.h"
 #include "Area.h"
 
 
-
-typedef struct effect{
-    char name[15];
-    const double rotation;
-    int posx;
-    int posy;
-    int layot;
-} effect;
-
-typedef struct Areamap{
-    sprite* sprites;
-    FlexSprite* flexingsprites;
-    char error[30];
-    int mapwidth; 
-    int mapheight;
-    int maplayots;
-    int sizesprites;
-    int sizeflexingsprites;
-    //effect* effects;
-    //int sizeffects;
-} Areamap;
-
-
-Areamap folder;
-int i = 0;
+int i = 0;  
     
-Areamap *Area(unsigned int inwidth, unsigned int inheight, unsigned int inlayots) {
-    folder.mapheight = inheight;
-    folder.mapwidth = inwidth;
-    folder.maplayots = inlayots;
+AreaMap *Area(unsigned int width, unsigned int height, unsigned int layots) {
+    AreaMap folder;
+    folder.mapheight = height;
+    folder.mapwidth = width;
+    folder.maplayots = layots;
     //folder.sizeffects = 0;
     folder.sizesprites = 0;
     folder.sprites = (sprite*) malloc(sizeof(sprite) * 1);
@@ -44,53 +21,61 @@ Areamap *Area(unsigned int inwidth, unsigned int inheight, unsigned int inlayots
     return &folder;
 }
 
-Areamap *CreateSprite(char name[15], int x, int y, int angle){
-    folder.sizesprites++;
-    folder.sprites = realloc(folder.sprites, (sizeof(sprite) * folder.sizesprites));
-    folder.sprites[folder.sizesprites].arguments.parametres.x = x;
-    folder.sprites[folder.sizesprites].arguments.parametres.y = y;
-    folder.sprites[folder.sizesprites].arguments.layot = 1;
-    folder.sprites[folder.sizesprites].arguments.rotation = angle;
-    //folder.sprites[folder.sizesprites].reflaction = {0, 0, 0, 0};
-    strncpy(folder.sprites[folder.sizesprites].name, name, 15);
-    return &folder;
-}
-
-Areamap *ChangePositionSprite(char namesprite[15], SDL_Rect *Argchange){
-    int succes = 0;
-    i = 0;
-    while (strcmp(folder.sprites[i].name, namesprite) == 0 && i < folder.sizesprites - 1){i++;}
-    if (i == folder.sizesprites) {
-        strcpy(folder.error, "No sprite with this name");
-    }
-    else {
-        folder.sprites[i].arguments.parametres.x = Argchange->x;
-        folder.sprites[i].arguments.parametres.y = Argchange->y;
-        succes = 1;
-    }
-    return &folder;
-}
-
-sprite *ReturnNSprite(int n){
-    if (n <= folder.sizesprites){
-        return &folder.sprites[n];
-    }
-    else {
-        strcpy(folder.error, "Error in function ReturnNSprite");
+AreaMap *CreateSprite(AreaMap *folder, char name[15], int x, int y, int angle) {
+    if (&folder) {
+        folder->sizesprites++;
+        folder->sprites = realloc(folder->sprites, (sizeof(sprite) * folder->sizesprites));
+        folder->sprites[folder->sizesprites].arguments.parametres.x = x;
+        folder->sprites[folder->sizesprites].arguments.parametres.y = y;
+        folder->sprites[folder->sizesprites].arguments.layot = 1;
+        folder->sprites[folder->sizesprites].arguments.rotation = angle;
+        //folder.sprites[folder->sizesprites].reflaction = {0, 0, 0, 0};
+        strncpy(folder->sprites[folder->sizesprites].name, name, 15);
+        return 1;
+    } else {
+        printf("Error: Not initialisated Map!");
         return 0;
     }
 }
 
-void CloseArea(){
+AreaMap *ChangePositionSprite(AreaMap *folder, char namesprite[15], SDL_Rect *Argchange){
+    int succes = 0;
     i = 0;
-    free(folder.sprites);
+    while (strcmp(folder->sprites[i].name, namesprite) == 0 && i < folder->sizesprites - 1){i++;}
+    if (i == folder->sizesprites) {
+        strcpy(folder->error, "No sprite with this name");
+        return 0;
+    } else {
+        folder->sprites[i].arguments.parametres.x = Argchange->x;
+        folder->sprites[i].arguments.parametres.y = Argchange->y;
+        succes = 1;
+    }
+    return 1;
 }
 
-char AreaGetError(){
-    return *folder.error;
+sprite *ReturnNSprite(AreaMap *folder, int n){
+    if (n <= folder->sizesprites){
+        return &folder->sprites[n];
+    }
+    else {
+        strcpy(folder->error, "Error in function ReturnNSprite");
+        return 1;
+    }
 }
+
+void CloseArea(AreaMap *folder){
+    i = 0;
+    free(folder->sprites);
+    return 1;
+}
+
+char AreaGetError(AreaMap *folder){
+    return folder->error;
+}
+
+
 /*
-Areamap *moveright(char namesp byrite[15], int speed){
+AreaMap *moveright(char namesp byrite[15], int speed){
     while (strcmp(folder.sprites[i].name, namesprite) == 0 && i < folder.sizesprites - 1){
         i++;
     }
@@ -103,7 +88,7 @@ Areamap *moveright(char namesp byrite[15], int speed){
     return &folder;
 }
 
-Areamap *moveleft(char namesprite[15], int speed){
+AreaMap *moveleft(char namesprite[15], int speed){
     while (strcmp(folder.sprites[i].name, namesprite) == 0 && i < folder.sizesprites - 1){
         i++;
     }
@@ -116,7 +101,7 @@ Areamap *moveleft(char namesprite[15], int speed){
     return &folder;
 }
 
-Areamap *moveup(char namesprite[15], int speed){
+AreaMap *moveup(char namesprite[15], int speed){
     while (strcmp(folder.sprites[i].name, namesprite) == 0 && i < folder.sizesprites - 1){
         i++;
     }
@@ -129,7 +114,7 @@ Areamap *moveup(char namesprite[15], int speed){
     return &folder;
 }
 
-Areamap *movedown(char namesprite[15], int speed){
+AreaMap *movedown(char namesprite[15], int speed){
     while (strcmp(folder.sprites[i].name, namesprite) == 0 && i < folder.sizesprites - 1){
         i++;
     }

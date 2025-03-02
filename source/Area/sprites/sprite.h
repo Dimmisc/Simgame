@@ -8,7 +8,7 @@ typedef struct parametresSprite {
     SDL_Rect parametres;
     double rotation;
     SDL_Point center_rotation;
-    int layot;
+    unsigned short int layot;
 } parametresSprite;
 
 typedef struct sprite {
