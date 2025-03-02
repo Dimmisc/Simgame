@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 
 #include "sprites/sprite.h"
+#include "Player.h"
 #include "Area.h"
 
 

@@ -15,7 +15,7 @@
 
 
 
-int SEL_init(SEL_ConsoleWindow *ARG, WindowSettings *settings) {
+int SEL_init(SEL_Window *ARG, WindowSettings *settings) {
     int succes = 0;
     ARG->window = SDL_CreateWindow(settings->name,
                                    settings->x,
@@ -51,7 +51,7 @@ int SEL_Moving_of_Sprites(AreaMap *AREA, int speed) {
     return succes;
 }
 
-int SEL_UpdateScreen(SEL_ConsoleWindow *ARG) {
+int UpdateScreen(SEL_Window *ARG) {
     int succes = 1;
     SDL_RenderClear(ARG->render);
     for (int i=0;i<ARG->lsS; i++) {
@@ -70,21 +70,20 @@ int SEL_UpdateScreen(SEL_ConsoleWindow *ARG) {
 
 
 /* Function of starting playing your own game*/
-int SEL_Start(int TPS) {
+int SEL_Start(int TPS, SEL_Window *Window) {
     struct timeval st, vt;
-    int Exit = 1;
+    int Exit = 0;
     double change_coeficent = 1 / TPS;
     gettimeofday(&st, 0);
     double started_game_time = (st.tv_sec + (double)st.tv_usec / 100000);
     double cst = (st.tv_sec + (double)st.tv_usec / 100000) + change_coeficent, mt = 0;
     printf("Game started, time:%lf", started_game_time);
-    while (Exit < 100) {
+    while (Exit == 0) {
         gettimeofday(&vt, 0);
         mt = vt.tv_sec + (double)vt.tv_usec / 100000;
         if ((mt - cst) >= 0) {
-            printf("%lf\n", mt - cst);
+            UpdateScreen(Window);
             cst += change_coeficent;
-            Exit += 1;
         }
     }
     return 1;
@@ -92,7 +91,7 @@ int SEL_Start(int TPS) {
 
 
 /*This Function is necessary t brake your window */
-int SEL_WQuit(SEL_ConsoleWindow *ARG) {
+int SEL_WQuit(SEL_Window *ARG) {
     SDL_DestroyRenderer( ARG->render );
     SDL_FreeSurface( ARG->surface );
     SDL_DestroyWindow( ARG->window );

@@ -2,15 +2,16 @@
 #define _SEL_H_
 
 
-typedef struct SEL_ConsoleWindow {
+typedef struct SEL_Window {
     SDL_Window *window;
     SDL_Surface *surface;
     SDL_Renderer *render;
     sprite **shownSprites;
+    Player *player;
     char Error[30];
     int lsS;
     short int error_continue;
-} SEL_ConsoleWindow;
+} SEL_Window;
 
 typedef struct WindowSetting {
     int width;
@@ -22,11 +23,11 @@ typedef struct WindowSetting {
 
 
 
-int SEL_init(SEL_ConsoleWindow *ARG, WindowSettings *settings);
+int SEL_init(SEL_Window *ARG, WindowSettings *settings);
 int SEL_Moving_of_Sprites(AreaMap *AREA, int speed);
-int SEL_UpdateScreen(SEL_ConsoleWindow *ARG);
-int SEL_Start(int TPS);
-int SEL_WQuit(SEL_ConsoleWindow *ARG);
+int UpdateScreen(SEL_Window *ARG);
+int SEL_Start(int TPS, SEL_Window *Window);
+int SEL_WQuit(SEL_Window *ARG);
 int SEL_AQuit(AreaMap *Area);
 int SEL_Exit();
 
