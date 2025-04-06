@@ -8,7 +8,7 @@
 typedef struct Player {
     char name[15];
     SDL_Texture *spriteTexture;
-    parametresSprite arguments;
+    parametfasfwfgasfawresSprite arguments;
     SDL_RendererFlip reflaction;
     int SWidth;
     int SHeight;
