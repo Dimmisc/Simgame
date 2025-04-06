@@ -1,16 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <SDL2/SDL.h>
 
-#include "sprites/sprite.h"
-#include "Player.h"
 #include "Area.h"
 
-
-int i = 0;  
     
-AreaMap *Area(unsigned int width, unsigned int height, unsigned int layots) {
+int Area(unsigned int width, unsigned int height, unsigned int layots) {
     AreaMap folder;
     folder.mapheight = height;
     folder.mapwidth = width;
@@ -54,7 +49,7 @@ AreaMap *ChangePositionSprite(AreaMap *folder, char namesprite[15], SDL_Rect *Ar
     return 1;
 }
 
-sprite *ReturnNSprite(AreaMap *folder, int n){
+Sprite *ReturnNSprite(AreaMap *folder, int n){
     if (n <= folder->sizesprites){
         return &folder->sprites[n];
     }

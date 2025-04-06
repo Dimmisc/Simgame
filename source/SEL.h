@@ -6,10 +6,10 @@ typedef struct SEL_Window {
     SDL_Window *window;
     SDL_Surface *surface;
     SDL_Renderer *render;
-    sprite **shownSprites;
+    Layot layots;
     Player *player;
     char Error[30];
-    int lsS;
+    int Ll;
     short int error_continue;
 } SEL_Window;
 

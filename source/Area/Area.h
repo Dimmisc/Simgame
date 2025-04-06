@@ -1,11 +1,13 @@
 #ifndef _AreaBox_H_
 #define _AreaBox_H_
 
-#include "Area.c"
+#include "sprites/sprite.h"
+#include "Player.h"
+#include "Area.h"
 
 
 typedef struct Layot {
-    sprite *sprites;
+    Sprite *sprites;
     int LenSprites;
 } Layot;
 
@@ -19,15 +21,16 @@ typedef struct Cell {
 typedef struct CellSettings {
     int height;
     int width;
-    int countHeight;
-    int countWidth;
+    int massHeight;
+    int massWidth;
 } CellSettings;
 
 
 typedef struct AreaMap {
     char error[30];
     Cell **cells;
-    CellSettings cellsArgs;
+    CellSettings cellsArg;
+    Player player;
     int mapwidth;
     int mapheight;
     //effect* effects;
